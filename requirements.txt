@@ -1,0 +1,6 @@
+yfinance==0.2.52
+plotly
+matplotlib
+IPython
+scipy
+py_vollib
