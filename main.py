@@ -197,7 +197,7 @@ class OptionAnalysis:
 
         implied_vol = vol_old
         return implied_vol
-
+    """ 
     def get_iv_from_alpha_vantage(self):
         url = f'https://www.alphavantage.co/query?function=HISTORICAL_OPTIONS&symbol={self.ticker}&apikey={st.secrets['api_key']}'
         r = requests.get(url)
@@ -208,7 +208,7 @@ class OptionAnalysis:
         df = df[df['expiration'] == self.expiration_date].reset_index(drop=True)
         iv = df[df['strike'] == self.strike_selection]['implied_volatility'].values[0]
         self.sigma = iv
-
+    """
     def fetch_and_set_iv(self, threshold = 0.00001):
         if 'Call' in self.strategy:
             closest_strike = min(self.calls['strike'], key=lambda x: abs(x - self.stock_last_close))
@@ -222,8 +222,10 @@ class OptionAnalysis:
             iv = df_iv[df_iv['strike']==self.strike_selection]['impvol'].values[0]
             if not np.isnan(iv) and iv>0:
                 self.sigma = iv
+            """ 
             else:
                 self.get_iv_from_alpha_vantage()
+            """
 
         elif 'Put' in self.strategy:
             closest_strike = min(self.puts['strike'], key=lambda x: abs(x - self.stock_last_close))
@@ -237,8 +239,10 @@ class OptionAnalysis:
             iv = df_iv[df_iv['strike']==self.strike_selection]['impvol'].values[0]
             if not np.isnan(iv) and iv>0:
                 self.sigma = iv
+            """
             else:
                 self.get_iv_from_alpha_vantage()
+            """
 
     def calculate_greeks(self, S_list, K, T, r, sigma, q=0, option_type='Call', position='Long'):
         results = []
