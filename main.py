@@ -206,7 +206,7 @@ class OptionAnalysis:
             df_iv['iv'] = df_iv.apply(lambda x: self.implied_vol(S0=self.stock_last_close, K=x['strike'], T=np.maximum(0,self.days_difference/252), r=self.rf_rate, market_price=x['lastPrice'], flag='c'), axis=1)
             df_iv['impvol'] = df_iv['iv'].apply(lambda x: float('nan') if x <= threshold else x)  # Replace values below threshold with NaN
             df_iv['impvol'] = df_iv['impvol'].interpolate(method='linear')  # Interpolate missing values
-            df_iv['impvol'] = df_iv['impvol'].fillna(method='bfill')
+            df_iv['impvol'] = df_iv['impvol'].bfill()
             #st.table(df_iv)
             iv = df_iv[df_iv['strike']==self.strike_selection]['impvol'].values[0]
             if not np.isnan(iv) and iv>0:
@@ -219,7 +219,7 @@ class OptionAnalysis:
             df_iv['iv'] = df_iv.apply(lambda x: self.implied_vol(S0=self.stock_last_close, K=x['strike'], T=np.maximum(0,self.days_difference/252), r=self.rf_rate, market_price=x['lastPrice'], flag='p'), axis=1)
             df_iv['impvol'] = df_iv['iv'].apply(lambda x: float('nan') if x <= threshold else x)  # Replace values below threshold with NaN
             df_iv['impvol'] = df_iv['impvol'].interpolate(method='linear')  # Interpolate missing values
-            df_iv['impvol'] = df_iv['impvol'].fillna(method='bfill')
+            df_iv['impvol'] = df_iv['impvol'].bfill()
             #st.table(df_iv)
             iv = df_iv[df_iv['strike']==self.strike_selection]['impvol'].values[0]
             if not np.isnan(iv) and iv>0:
